@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>EPIC Example</title>
+  </head>
+  <body>
+    {% if session %}
+      <h1>Welcome!</h1>
+      <p><a href="/logout" id="qsLogoutBtn">Logout</a></p>
+      <p><a href="#" id="callFhirBtn">Call Epic FHIR API</a></p>
+      
+      <h2>Access Token Info:</h2>
+      <div><pre>{{ pretty }}</pre></div>
+
+      <h2>FHIR API Result:</h2>
+      <div><pre id="fhirOutput">No FHIR result yet.</pre></div>
+
+      <script>
+        // Load any stored result on page load
+        document.addEventListener("DOMContentLoaded", function() {
+          const result = localStorage.getItem("fhir_result");
+          if (result) {
+            document.getElementById("fhirOutput").textContent = result;
+          }
+        });
+
+        // When "Call FHIR API" is clicked
+        document.getElementById("callFhirBtn").addEventListener("click", function(e) {
+          e.preventDefault();
+          fetch("/fhir-result")
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then(data => {
+              const formatted = JSON.stringify(data, null, 2);
+              localStorage.setItem("fhir_result", formatted);
+              document.getElementById("fhirOutput").textContent = formatted;
+            })
+            .catch(err => {
+              document.getElementById("fhirOutput").textContent = "FHIR API error: " + err;
+            });
+        });
+      </script>
+
+    {% else %}
+      <h1 id="profileDropDown">Welcome Guest</h1>
+      <p><a href="/login" id="qsLoginBtn">Login</a></p>
+    {% endif %}
+  </body>
+</html>

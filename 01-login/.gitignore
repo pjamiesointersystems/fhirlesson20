@@ -1,0 +1,13 @@
+.env
+.pyc
+*.iml
+.directory
+.idea
+venv/
+.env/
+__pycache__/
+*.pyc
+01-login/venv/
+02-login/venv/
+03-login/venv/
+

@@ -1,0 +1,30 @@
+GET http://127.0.0.1:8080/csp/healthshare/demo/fhir/r4/metadata
+Authorization: Basic _System:ISCDEMO
+Accept: */*
+content-type: application/fhir+json
+Accept-Encoding: gzip, deflate, br
+Prefer: return=representation
+
+###
+GET http://127.0.0.1:8080/csp/healthshare/demo/fhir/r4/Patient?name=Jane
+Authorization: Basic _System:ISCDEMO
+Accept: */*
+content-type: application/fhir+json
+Accept-Encoding: gzip, deflate, br
+Prefer: return=representation
+###
+
+###
+GET https://fhir.epic.com/interconnect-fhir-oauth/api/FHIR/R4/.well-known/smart-configuration
+Accept: */*
+content-type: application/fhir+json
+Accept-Encoding: gzip, deflate, br
+Prefer: return=representation
+###
+
+GET https://fhir.epic.com/interconnect-fhir-oauth/oauth2/authorize?response_type=code
+&client_id=a95137df-af22-4fea-9e54-ac2a03d81419
+&redirect_uri=https%3A%2F%2F127.0.0.1%3A3000%2Fcallback
+&scope=openid%20fhirUser%20user/*.read%20offline_access
+&state=abc
+&aud=https%3A%2F%2Ffhir.epic.com%2Finterconnect-fhir-oauth%2Fapi%2FFHIR%2FR4
